@@ -3,6 +3,20 @@ const userModel = require('../models/userModel');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
+const isProduction = process.env.NODE_ENV === 'production';
+const authCookieOptions = {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? 'none' : 'lax',
+    maxAge: 7 * 24 * 60 * 60 * 1000
+};
+
+const clearCookieOptions = {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? 'none' : 'lax'
+};
+
 async function registerController(req, res) {
     try {
         const { fullname: { firstname, lastname }, email, password } = req.body;
@@ -27,12 +41,7 @@ async function registerController(req, res) {
             role: newUser.role
         }, process.env.JWT_SECRET);
 
-        res.cookie('token', token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: 'strict',
-            maxAge: 7 * 24 * 60 * 60 * 1000
-        });
+        res.cookie('token', token, authCookieOptions);
 
         res.status(201).json({
             message: 'User created successfully',
@@ -69,12 +78,7 @@ async function loginController(req, res) {
             role: user.role
         }, process.env.JWT_SECRET);
 
-        res.cookie('token', token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: 'strict',
-            maxAge: 7 * 24 * 60 * 60 * 1000
-        });
+        res.cookie('token', token, authCookieOptions);
 
         res.status(200).json({
             message: 'Login successful',
@@ -128,12 +132,7 @@ async function updateMeController(req, res) {
             role: updatedUser.role
         }, process.env.JWT_SECRET);
 
-        res.cookie('token', token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: 'strict',
-            maxAge: 7 * 24 * 60 * 60 * 1000
-        });
+        res.cookie('token', token, authCookieOptions);
 
         res.status(200).json({
             message: 'User updated successfully',
@@ -176,11 +175,7 @@ async function changePasswordController(req, res) {
 
 async function logoutController(req, res) {
     try {
-        res.clearCookie('token', {
-            httpOnly: true,
-            secure: true,
-            sameSite: 'strict',
-        });
+        res.clearCookie('token', clearCookieOptions);
         res.status(200).json({ message: 'Logout successful' });
     } catch (error) {
         res.status(500).json({ message: 'Error logging out', error });
@@ -191,11 +186,7 @@ async function deleteAccountController(req, res) {
     try{
         const userId = req.user.userId;
         await userModel.findByIdAndDelete(userId);
-        res.clearCookie('token', {
-            httpOnly: true,
-            secure: true,
-            sameSite: 'strict',
-        });
+        res.clearCookie('token', clearCookieOptions);
         res.status(200).json({ message: 'Account deleted successfully' });
     } catch (error) {
         res.status(500).json({ message: 'Error deleting account', error });
