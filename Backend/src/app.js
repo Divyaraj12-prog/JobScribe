@@ -17,6 +17,7 @@ const allowedOrigins = (process.env.FRONTEND_URL || '')
   .split(',')
   .map((origin) => origin.trim())
   .filter(Boolean);
+const primaryFrontendOrigin = allowedOrigins[0] || process.env.FRONTEND_URL;
 
 const corsOptions = {
   origin: (origin, callback) => {
@@ -43,7 +44,7 @@ app.get('/api/auth/google',
 );
 
 app.get('/api/auth/google/callback',
-  passport.authenticate('google', { failureRedirect: '/login', session: false }),
+  passport.authenticate('google', { failureRedirect: `${primaryFrontendOrigin}/login`, session: false }),
   (req, res) => {
     const token = jwt.sign({
       userId: req.user._id,
@@ -59,7 +60,7 @@ app.get('/api/auth/google/callback',
       maxAge: 7 * 24 * 60 * 60 * 1000
     });
 
-    res.redirect(`${process.env.FRONTEND_URL}/dashboard`);
+    res.redirect(`${primaryFrontendOrigin}/dashboard`);
   }
 );
 

@@ -11,6 +11,7 @@ const Register = () => {
   const [errorMessage, seterrorMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const googleAuthUrl = `${import.meta.env.VITE_BACKEND_URL}/auth/google`;
 
   const {register, handleSubmit, formState: {errors}, reset} = useForm()
 
@@ -64,7 +65,7 @@ const Register = () => {
         <div className="bg-white rounded-2xl shadow-xl shadow-gray-100 border border-gray-100 p-8">
           {/* Google OAuth */}
           <a
-            href="http://localhost:3000/api/auth/google"
+            href={googleAuthUrl}
             className="flex items-center justify-center gap-3 w-full px-4 py-3 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 text-sm font-medium text-gray-700 transition-all hover:border-gray-300 hover:shadow-sm mb-6"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
