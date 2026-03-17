@@ -58,7 +58,7 @@ async function registerController(req, res) {
 async function loginController(req, res) {
     try {
         const { email, password } = req.body;
-        console.log(req.body)
+        
 
         
         const user = await userModel.findOne({ email });

@@ -84,7 +84,7 @@ const Sidebar = ({ isOpen, onClose }) => {
         navigate('/login');
       })
       .catch((error) => {
-        console.error('Error logging out:', error);
+       
       });
   };
 

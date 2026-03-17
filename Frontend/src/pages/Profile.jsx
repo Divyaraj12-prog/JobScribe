@@ -35,7 +35,7 @@ const Profile = () => {
           offers: response.data.offer ?? 0,
         });
       } catch (error) {
-        console.error('Error fetching dashboard data:', error);
+        
         setdashboardStats({});
       }
     };
@@ -57,9 +57,9 @@ const Profile = () => {
       });
       setUser(response.data.user);
       setProfileSaved(true);
-      console.log('Profile updated successfully:', response.data);
+      
     } catch (error) {
-      console.error('Error updating profile:', error);
+     
       setProfileSaved(false);
       if (error.response && error.response.status === 401) {
         setUser(null);
@@ -82,11 +82,11 @@ const Profile = () => {
         currentPassword: passwordForm.currentPassword,
         newPassword: passwordForm.newPassword,
       });
-      console.log('Password updated successfully:', response.data);
+    
       setpasswordErrors('');
       setPasswordSaved(true);
     } catch (error) {
-      console.error('Error updating password:', error);
+     
       setpasswordErrors(error.response?.data?.message || 'An error occurred while updating the password. Please try again.');
       setPasswordSaved(false);
       if (error.response && error.response.status === 401) {
@@ -101,11 +101,11 @@ const Profile = () => {
     if (window.confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
       try {
         const response = await api.delete('/auth/delete');
-        console.log('Account deleted successfully:', response.data);
+       
         setUser(null);
         navigate('/register');
       } catch (error) {
-        console.error('Error deleting account:', error);
+       
         if (error.response && error.response.status === 401) {
           setUser(null);
           navigate('/login');

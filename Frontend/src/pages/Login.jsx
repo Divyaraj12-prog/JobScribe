@@ -21,7 +21,7 @@ const Login = () => {
             email: data.email,
             password: data.password
         }, { withCredentials: true });
-        console.log(response.data.fullName);
+        
         setUser({
             id: response.data.id,
             fullName: response.data.fullName,
@@ -33,7 +33,7 @@ const Login = () => {
         reset();
         navigate('/dashboard');
     } catch (error) {
-        console.error('Login error:', error);
+        
         setErrorMessage(error.response?.data?.message || 'An error occurred during login');
     }
   };

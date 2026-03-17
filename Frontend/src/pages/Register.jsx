@@ -16,7 +16,7 @@ const Register = () => {
 
 
   const onSubmit = async (data) => {
-    console.log(data);
+
     try {
       const response = await api.post('/auth/register',{
         fullname: { firstname: data.firstname, lastname: data.lastname },
@@ -24,7 +24,7 @@ const Register = () => {
         password: data.password
       }, { withCredentials: true
       });
-      console.log('Registration successful:', response.data);
+      
       
       setUser({
         id: response.data.id,
@@ -32,13 +32,13 @@ const Register = () => {
         email: response.data.email,
         role: response.data.role
       });
-      console.log(user);
+      
       
       seterrorMessage('');
       reset();
       navigate('/dashboard');
     } catch (error) {
-      console.error('Registration error:', error.response ? error.response.data : error.message);
+      
       seterrorMessage(error.response?.data?.message || 'An error occurred during registration');
 
     }

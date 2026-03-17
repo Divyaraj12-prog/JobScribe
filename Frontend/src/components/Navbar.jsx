@@ -30,7 +30,7 @@ const Navbar = ({ onMenuClick }) => {
         navigate('/login');
       })
       .catch((error) => {
-        console.error('Error logging out:', error);
+        
         navigate('/login');
       });
   };

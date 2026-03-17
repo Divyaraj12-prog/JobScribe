@@ -40,7 +40,7 @@ const Resumes = () => {
         if (error.response?.status === 404) {
           setResumes([]);
         } else {
-          console.error('Error fetching resumes:', error);
+          
           setErrorMessage('Failed to load resumes. Please try again.');
         }
       }
@@ -92,7 +92,7 @@ const Resumes = () => {
       setResumeTitle('');
       setSuccessMessage('Resume uploaded successfully.');
     } catch (error) {
-      console.error('Error uploading resume:', error);
+     
       setErrorMessage(error.response?.data?.message || 'Failed to upload resume. Please try again.');
     } finally {
       setUploading(false);
@@ -137,7 +137,7 @@ const Resumes = () => {
       setResumes((prev) => prev.filter((resume) => resume._id !== id));
       setSuccessMessage('Resume deleted successfully.');
     } catch (error) {
-      console.error('Error deleting resume:', error);
+  
       setErrorMessage(error.response?.data?.message || 'Failed to delete resume. Please try again.');
     }
   };

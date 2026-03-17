@@ -38,10 +38,10 @@ const NewApplication = () => {
 
     try{
       const response = await api.post('/applications', payload);
-      console.log('Application saved:', response.data.application);
+      
       navigate('/applications');
     }catch(err){
-      console.error('Error saving application:', err);
+      
       setErrorMessage(err.response?.data?.message || 'An error occurred while saving the application. Please try again.');
     } finally {
       setIsSubmitting(false);
