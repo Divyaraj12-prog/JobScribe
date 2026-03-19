@@ -19,6 +19,10 @@ const allowedOrigins = (process.env.FRONTEND_URL || '')
   .filter(Boolean);
 const primaryFrontendOrigin = allowedOrigins[0] || process.env.FRONTEND_URL;
 
+if (isProduction) {
+  app.set('trust proxy', 1);
+}
+
 const corsOptions = {
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin)) {

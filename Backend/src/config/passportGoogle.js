@@ -2,10 +2,12 @@ const passport = require('passport');
 const { Strategy: GoogleStrategy } = require('passport-google-oauth20');
 const userModel = require('../models/userModel');
 
+const callbackURL = process.env.GOOGLE_CALLBACK_URL || '/api/auth/google/callback';
+
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: '/api/auth/google/callback',
+  callbackURL,
 }, async (accessToken, refreshToken, profile, done) => {
   try {
     let user = await userModel.findOne({ googleId: profile.id });
