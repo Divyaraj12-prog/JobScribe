@@ -1,6 +1,8 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
 const authRoutes = require('./routes/authRoutes');
 const appRoutes = require('./routes/applicationRoutes');
 const resumeRoutes = require('./routes/resumeRoutes');
@@ -8,6 +10,9 @@ const aiRoutes = require('./routes/aiRoutes');
 const dashBoardRoutes = require('./routes/dashBoardRoutes');
 
 const app = express();
+const uploadsDir = path.resolve(process.cwd(), 'uploads');
+
+fs.mkdirSync(uploadsDir, { recursive: true });
 
 const isProduction = process.env.NODE_ENV === 'production';
 const allowedOrigins = (process.env.FRONTEND_URL || '')
@@ -36,7 +41,7 @@ app.use(cors(corsOptions));
 
 app.use(express.json());
 app.use(cookieParser());
-app.use('/uploads', express.static('uploads'));
+app.use('/uploads', express.static(uploadsDir));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/applications', appRoutes);

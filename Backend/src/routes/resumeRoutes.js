@@ -4,9 +4,14 @@ const resumeController = require('../controllers/resumeControllers');
 const Middlewares = require('../middlewares/authMiddleware');
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs');
+
+const uploadsDir = path.resolve(process.cwd(), 'uploads');
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads/");
+    fs.mkdirSync(uploadsDir, { recursive: true });
+    cb(null, uploadsDir);
   },
 
   filename: function (req, file, cb) {
